@@ -1,11 +1,23 @@
 #!/usr/bin/env bash
-# Install Nginx
-sudo apt-get update
-sudo apt-get install nginx -y
+# bash script to install nginx web server & make the following configurations:
 
-# Configure Nginx
-sudo echo "Holberton School for the win!" > /var/www/html/index.html
-sudo sed -i 's|root /var/www/html;|root /var/www/html;\n\tindex index.html;|' /etc/nginx/sites-available/default
+apt-get update
+apt-get install -y nginx
 
-# Start Nginx
-sudo service nginx start
+mkdir /etc/nginx/html
+
+touch /etc/nginx/html/index.html
+
+
+echo "Holberton School" > /etc/nginx/html/index.html
+
+
+printf %s "server {
+     listen      80 default_server;
+     listen      [::]:80 default_server;
+     root        /etc/nginx/html;
+     index       index.html index.htm;
+}
+" > /etc/nginx/sites-available/default
+
+service nginx restart
